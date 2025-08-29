@@ -23,7 +23,7 @@ export default function KioskLayout({ children, categories, showSummary, title, 
     return (
         <>
             <Head title={title} />
-            
+
             <div className="md:flex md:overflow-hidden md:h-screen">
                 <Sidebar>
                     <LinkSidebar href={clientDashboard()}>
@@ -44,9 +44,26 @@ export default function KioskLayout({ children, categories, showSummary, title, 
                     ))}
                 </Sidebar>
 
-                <MainMenuMobile categories={categories} />
+                <MainMenuMobile>
+                    <LinkSidebar href={clientDashboard()}>
+                        <ChevronLeftIcon className="size-6" />
+                        Regresar
+                    </LinkSidebar>
 
-                <MainHeader />
+                    {categories.map((category) => (
+                        <LinkSidebar key={category.id} href={kiosk({ product_category: category.id })}>
+                            <img
+                                src={storage.local({ path: `product_categories/${category.icon}` }).url}
+                                alt={`icono de la categoría ${category.name}`}
+                                className="size-10 aspect-square"
+                            />
+
+                            {category.name}
+                        </LinkSidebar>
+                    ))}
+                </MainMenuMobile>
+
+                <MainHeader kiosk={showSummary} />
 
                 <div className="flex-1 bg-gray-100 overflow-y-auto min-h-screen">
                     <main className="px-4 py-6 container mx-auto mt-16 md:mt-0">

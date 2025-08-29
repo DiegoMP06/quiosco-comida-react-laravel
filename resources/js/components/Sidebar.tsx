@@ -16,7 +16,7 @@ export default function Sidebar({ children }: PropsWithChildren) {
                         src="/logo.png"
                         alt="Logotipo de FreshCoffee"
                         className="block max-w-52 w-full"
-                        width={500}
+                        width={200}
                         height={50}
                     />
                 </picture>

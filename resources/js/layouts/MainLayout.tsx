@@ -56,12 +56,46 @@ export default function MainLayout({ children, title, subtitle }: MainLayoutProp
                             </LinkSidebar>
                         </>
                     )}
+
                     <LinkSidebar href={profile.edit()}>
                         Perfil
                     </LinkSidebar>
                 </Sidebar>
 
-                <MainMenuMobile categories={[]} />
+                <MainMenuMobile>
+                    {isAdmin ? (
+                        <>
+                            <LinkSidebar href={dashboard()}>
+                                Dashboard
+                            </LinkSidebar>
+                            <LinkSidebar href={products.index()}>
+                                Productos
+                            </LinkSidebar>
+                            <LinkSidebar href={orders.delivery()}>
+                                Envíos a Domicilio
+                            </LinkSidebar>
+                            <LinkSidebar href={orders.admin(formatDateFromUrl(new Date()))}>
+                                Ordenes
+                            </LinkSidebar>
+                        </>
+                    ) : (
+                        <>
+                            <LinkSidebar href={clientDashboard()}>
+                                Dashboard
+                            </LinkSidebar>
+                            <LinkSidebar href={kiosk(1)}>
+                                Nueva Orden
+                            </LinkSidebar>
+                            <LinkSidebar href={userAddresses.index()}>
+                                Servicio a Domicilio
+                            </LinkSidebar>
+                        </>
+                    )}
+
+                    <LinkSidebar href={profile.edit()}>
+                        Perfil
+                    </LinkSidebar>
+                </MainMenuMobile>
 
                 <MainHeader />
 

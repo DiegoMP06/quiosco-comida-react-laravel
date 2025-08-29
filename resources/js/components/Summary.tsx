@@ -1,34 +1,27 @@
+import { summary } from "@/routes/kiosk";
 import { useKioskStore } from "@/stores/kiosk";
+import { Link } from "@inertiajs/react";
 import { formatCurrency } from "../helpers";
 import ProductSummary from "./ProductSummary";
-import { useEffect } from "react";
-import { Link } from "@inertiajs/react";
-import { summary } from "@/routes/kiosk";
 
 export default function Summary() {
     const order = useKioskStore(state => state.order);
-    const setTotal = useKioskStore(state => state.setTotal);
     const total = useKioskStore(state => state.total);
     const isEmptyOrder = order.length === 0;
 
-    useEffect(() => {
-        const total = order.reduce((total, item) => total + (Number(item.price) * item.quantity), 0);
-        setTotal(total);
-    }, [order])
-
     return (
         <aside className="hidden md:block md:w-64 lg:w-60 xl:w-80 2xl:w-96 px-4 py-6 overflow-y-auto">
-            <h2 className="text-3xl text-gray-700 font-bold mb-6">
+            <h2 className="text-3xl text-gray-600 font-bold mb-6">
                 Resumen:
             </h2>
 
-            <p className="my-6 text-gray-700 text-lg">
+            <p className="my-6 text-gray-600 text-lg">
                 Aquí puedes ver el resumen de tu pedido
             </p>
 
             <div className="my-6 ">
                 {isEmptyOrder ? (
-                    <p className="font-bold text-gray-700 text-center text-lg">
+                    <p className="font-bold text-gray-600 text-center text-lg">
                         No Hay Elementos En El Pedido
                     </p>
                 ) : (
