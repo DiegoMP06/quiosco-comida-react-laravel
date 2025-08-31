@@ -16,7 +16,7 @@ class DeliveryOrdersAPIController extends Controller
     {
         return new OrderCollection(
             Order::where('order_status_id', 4)
-                ->with(['orderType', 'orderStatus', 'products', 'address', 'user'])
+                ->with([ 'orderStatus', 'products', 'address', 'user'])
                 ->orderBy('id', 'desc')
                 ->get()
         );

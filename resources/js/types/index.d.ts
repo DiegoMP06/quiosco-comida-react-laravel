@@ -56,7 +56,7 @@ export type DraftOrderProduct = {
 export type DraftOrder = {
     products: DraftOrderProduct[];
     total: number;
-    order_type_id: number;
+    home_delivery: boolean;
     user_address_id: number | null;
 };
 

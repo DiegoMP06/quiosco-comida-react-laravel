@@ -1,5 +1,4 @@
 import { store } from "@/actions/App/Http/Controllers/Client/OrderController";
-import { OrderType } from "@/schemas";
 import { useKioskStore } from "@/stores/kiosk";
 import { Auth, DraftOrder } from "@/types";
 import { router, usePage } from "@inertiajs/react";
@@ -7,25 +6,22 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import DeliveryFormSection from "./DeliveryFormSection";
 
-type OrderTypeSectionProps = {
-    types: OrderType[]
-}
 
-export default function OrderTypeSection({ types }: OrderTypeSectionProps) {
+export default function OrderTypeSection() {
     const [pending, setPending] = useState(false);
     const order = useKioskStore((state) => state.order);
     const total = useKioskStore((state) => state.total);
     const clearState = useKioskStore((state) => state.clearState);
-    const setOrderTypeId = useKioskStore((state) => state.setOrderTypeId);
+    const setHomeDelivery = useKioskStore((state) => state.setHomeDelivery);
     const setUserAddressId = useKioskStore((state) => state.setUserAddressId);
-    const order_type_id = useKioskStore((state) => state.order_type_id);
+    const home_delivery = useKioskStore((state) => state.home_delivery);
     const user_address_id = useKioskStore((state) => state.user_address_id);
     const { user } = usePage().props.auth as Auth;
 
     const handleCreateOrder = () => {
         const data: DraftOrder = {
             products: order.map(item => ({ product_id: item.id, quantity: item.quantity })),
-            order_type_id,
+            home_delivery,
             total,
             user_address_id,
         }
@@ -47,9 +43,9 @@ export default function OrderTypeSection({ types }: OrderTypeSectionProps) {
 
     useEffect(() => {
         setUserAddressId(null);
-    }, [order_type_id]);
+    }, [home_delivery]);
 
-    const canCreateOrder = useMemo(() => order.length > 0 && ((order_type_id === 1 && user_address_id) || order_type_id === 2), [order, order_type_id, user_address_id]);
+    const canCreateOrder = useMemo(() => order.length > 0 && ((home_delivery && user_address_id) || !home_delivery), [order, home_delivery, user_address_id]);
 
     return (
         <div className="bg-white border border-gray-300 p-6 rounded shadow-lg flex-1 flex flex-col">
@@ -80,28 +76,40 @@ export default function OrderTypeSection({ types }: OrderTypeSectionProps) {
                     </h2>
 
                     <form className="p-2 grid grid-cols-1">
-                        {types.map(item => (
                             <label
-                                htmlFor={`type-${item.id}`}
+                                htmlFor={`type-local`}
                                 className="flex gap-2 items-center text-gray-600 cursor-pointer"
-                                key={item.id}
                             >
                                 <input
                                     type="radio"
-                                    name="order_type_id"
-                                    id={`type-${item.id}`}
+                                    name="home_delivery"
+                                    id={`type-local`}
                                     className="form-radio text-cyan-600"
-                                    value={item.id}
-                                    checked={order_type_id === item.id}
-                                    onChange={(e) => setOrderTypeId(Number(e.target.value))}
+                                    defaultChecked
+                                    checked={!home_delivery}
+                                    onChange={() => setHomeDelivery(false)}
                                 />
-                                {item.name}
+                                Consumo en Local
                             </label>
-                        ))}
+
+                            <label
+                                htmlFor={`type-delivery`}
+                                className="flex gap-2 items-center text-gray-600 cursor-pointer"
+                            >
+                                <input
+                                    type="radio"
+                                    name="home_delivery"
+                                    id={`type-delivery`}
+                                    className="form-radio text-cyan-600"
+                                    checked={home_delivery}
+                                    onChange={() => setHomeDelivery(true)}
+                                />
+                                Servicio a Domicilio
+                            </label>
                     </form>
                 </div>
 
-                {order_type_id === 1 && (
+                {home_delivery && (
                     <DeliveryFormSection />
                 )}
             </div>

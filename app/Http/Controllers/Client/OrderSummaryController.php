@@ -16,11 +16,9 @@ class OrderSummaryController extends Controller
     public function __invoke(Request $request)
     {
         $categories = ProductCategory::all();
-        $types = OrderType::all();
 
         return Inertia::render('client/OrderSummaryView', [
             'categories' => $categories,
-            'types' => $types,
         ]);
     }
 }

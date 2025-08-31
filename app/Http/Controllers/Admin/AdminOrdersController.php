@@ -14,7 +14,7 @@ class AdminOrdersController extends Controller
      */
     public function __invoke(Request $request, string $date)
     {
-        $orders = Order::whereDate('created_at', $date)->with(['orderType', 'orderStatus', 'products', 'address', 'user'])
+        $orders = Order::whereDate('created_at', $date)->with([ 'orderStatus', 'products', 'address', 'user'])
             ->orderBy('id', 'desc')
             ->paginate(10);
 

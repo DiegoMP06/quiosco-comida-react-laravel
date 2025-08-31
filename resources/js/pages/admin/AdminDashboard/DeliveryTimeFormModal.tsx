@@ -1,21 +1,45 @@
+import DeliveryTimeOrderController from "@/actions/App/Http/Controllers/Admin/DeliveryTimeOrderController";
 import ErrorMessage from "@/components/ErrorMessage";
+import { Order } from "@/schemas";
 import { DeliveryTimeOrder } from "@/types";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { Dispatch, SetStateAction } from "react";
+import { router } from "@inertiajs/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type DeliveryTimeFormModalProps = {
-    setOpenModal: Dispatch<SetStateAction<boolean>>
+    handleCloseModal: () => void
     openModal: boolean
-    handleSubmitDeliveryTime: (data: DeliveryTimeOrder) => void
-    pending: boolean;
+    orderId: Order['id']
 }
 
-export default function DeliveryTimeFormModal({ openModal, setOpenModal, handleSubmitDeliveryTime,pending }: DeliveryTimeFormModalProps) {
+export default function DeliveryTimeFormModal({ openModal, handleCloseModal, orderId }: DeliveryTimeFormModalProps) {
     const { register, formState: { errors }, handleSubmit } = useForm<DeliveryTimeOrder>();
+    const [pending, setPending] = useState(false);
+
+    const handleSubmitDeliveryTime = (data: DeliveryTimeOrder) => {
+        setPending(true);
+        router.post(DeliveryTimeOrderController(orderId), data, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success('El tiempo de entrega se actualizo exitosamente')
+                handleCloseModal();
+            },
+            onError: (errors) => {
+                Object.values(errors).forEach((error) => toast.error(error))
+            },
+            onFinish: () => setPending(false)
+        })
+    }
 
     return (
-        <Dialog open={openModal} as="div" className="relative z-10 focus:outline-none" onClose={() => setOpenModal(false)}>
+        <Dialog
+            open={openModal}
+            as="div"
+            className="relative z-10 focus:outline-none"
+            onClose={handleCloseModal}
+        >
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50">
                 <div className="flex min-h-full items-center justify-center p-4">
                     <DialogPanel

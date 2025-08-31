@@ -21,20 +21,20 @@ class OrderController extends Controller
             'products' => ['array', 'min:1', 'required'],
             'products.*.product_id' => ['required', 'exists:products,id'],
             'products.*.quantity' => ['required', 'numeric', 'min:1', 'max:5'],
-            'order_type_id' => ['required', 'exists:order_types,id'],
+            'home_delivery' => ['required', 'boolean'],
             'user_address_id' => ['nullable', 'exists:user_addresses,id'],
         ]);
 
-        if ($data['order_type_id'] == 1 && !$data['user_address_id']) {
+        if ($data['home_delivery'] && !$data['user_address_id']) {
             return redirect()->back()->withErrors(['user_address_id' => 'La Dirección es Requerida']);
         }
 
         $order = $request->user()->orders()->create([
             'total' => $data['total'],
-            'order_type_id' => $data['order_type_id'],
+            'home_delivery' => $data['home_delivery'],
         ]);
 
-        if ($data['order_type_id'] == 1) {
+        if ($data['home_delivery']) {
             OrderAddress::create([
                 'order_id' => $order->getKey(),
                 'user_address_id' => $data['user_address_id'],

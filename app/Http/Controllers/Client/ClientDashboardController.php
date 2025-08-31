@@ -16,7 +16,7 @@ class ClientDashboardController extends Controller
         $orders = $request
             ->user()
             ->orders()
-            ->with(['orderType', 'orderStatus', 'products', 'address'])
+            ->with([ 'orderStatus', 'products', 'address'])
             ->orderBy('id', 'desc')
             ->paginate(10);
 

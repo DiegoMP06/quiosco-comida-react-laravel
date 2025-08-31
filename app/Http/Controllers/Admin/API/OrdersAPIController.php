@@ -17,7 +17,7 @@ class OrdersAPIController extends Controller
         return new OrderCollection(
             Order::where('order_status_id', 1)
                 ->orWhere('order_status_id', 3)
-                ->with(['orderType', 'orderStatus', 'products', 'address', 'user'])
+                ->with([ 'orderStatus', 'products', 'address', 'user'])
                 ->orderBy('id', 'desc')
                 ->get()
         );

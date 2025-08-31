@@ -32,7 +32,7 @@ export default function OrderData({ order }: OrderDataProps) {
             <p className="text-gray-600 text-lg font-bold">
                 Tipo: {''}
                 <span className="font-normal">
-                    {order.order_type.name}
+                    {order.home_delivery ? 'Entrega a domicilio' : 'Consumo en local'}
                 </span>
             </p>
 

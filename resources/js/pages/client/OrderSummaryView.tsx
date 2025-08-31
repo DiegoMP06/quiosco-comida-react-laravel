@@ -1,14 +1,13 @@
 import KioskLayout from '@/layouts/KioskLayout'
-import { OrderType, ProductCategory } from '@/schemas'
+import { ProductCategory } from '@/schemas'
 import OrderItemsSection from './OrderSumary/OrderItemsSection'
 import OrderTypeSection from './OrderSumary/OrderTypeSection'
 
 type OrderSummaryViewProps = {
     categories: ProductCategory[]
-    types: OrderType[]
 }
 
-export default function OrderSummaryView({ categories, types }: OrderSummaryViewProps) {
+export default function OrderSummaryView({ categories }: OrderSummaryViewProps) {
     return (
         <KioskLayout
             categories={categories}
@@ -18,7 +17,7 @@ export default function OrderSummaryView({ categories, types }: OrderSummaryView
             <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
                 <OrderItemsSection />
 
-                <OrderTypeSection types={types} />
+                <OrderTypeSection />
             </div>
         </KioskLayout>
     )

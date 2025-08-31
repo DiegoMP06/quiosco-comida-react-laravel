@@ -6,7 +6,7 @@ import { devtools, persist } from 'zustand/middleware';
 type KioskState = {
     order: OrderItem[];
     total: number;
-    order_type_id: number;
+    home_delivery: boolean;
     user_address_id: number | null;
     productSelected: Product | null;
     productModal: boolean;
@@ -16,7 +16,7 @@ type KioskState = {
     setTotal: (total: number) => void;
     setProductSelected: (product: Product | null) => void;
     setProductModal: (productModal: boolean) => void;
-    setOrderTypeId: (order_type_id: number) => void;
+    setHomeDelivery: (home_delivery: boolean) => void;
     setUserAddressId: (user_address_id: number | null) => void;
     clearState: () => void;
 };
@@ -27,7 +27,7 @@ export const useKioskStore = create<KioskState>()(
             (set) => ({
                 order: [],
                 total: 0,
-                order_type_id: 1,
+                home_delivery: false,
                 user_address_id: null,
                 productSelected: null,
                 productModal: false,
@@ -70,10 +70,10 @@ export const useKioskStore = create<KioskState>()(
                         productModal,
                     }));
                 },
-                setOrderTypeId: (order_type_id) => {
+                setHomeDelivery: (home_delivery) => {
                     set((state) => ({
                         ...state,
-                        order_type_id,
+                        home_delivery,
                     }));
                 },
                 setUserAddressId: (user_address_id) => {
@@ -87,7 +87,7 @@ export const useKioskStore = create<KioskState>()(
                         order: [],
                         total: 0,
                         user_address_id: null,
-                        order_type_id: 1,
+                        home_delivery: false,
                         productSelected: null,
                         productModal: false,
                     });

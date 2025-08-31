@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->decimal('total');
             $table->integer('delivery_time')->nullable();
+            $table->boolean('home_delivery')->default(false);
             $table->timestamp('completed_at')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('order_type_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

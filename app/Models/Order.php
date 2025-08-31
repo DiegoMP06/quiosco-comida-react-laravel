@@ -9,20 +9,15 @@ class Order extends Model
     protected $fillable = [
         'total',
         'delivery_time',
+        'home_delivery',
         'completed_at',
         'user_id',
-        'order_type_id',
         'order_status_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function orderType()
-    {
-        return $this->belongsTo(OrderType::class);
     }
 
     public function orderStatus()

@@ -32,14 +32,6 @@ export const ProductCategorySchema = z.object({
 
 export type ProductCategory = z.infer<typeof ProductCategorySchema>;
 
-export const OrderTypeSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-    icon: z.string(),
-});
-
-export type OrderType = z.infer<typeof OrderTypeSchema>;
-
 export const OrderStatusSchema = z.object({
     id: z.number(),
     name: z.string(),
@@ -103,14 +95,13 @@ export const OrderSchema = z.object({
     id: z.number(),
     total: z.string(),
     delivery_time: z.number().nullable(),
+    home_delivery: z.number(),
     completed_at: z.string().nullable(),
     user_id: z.number(),
-    order_type_id: z.number(),
     order_status_id: z.number(),
     created_at: z.string(),
     updated_at: z.string(),
     user: UserSchema.optional(),
-    order_type: OrderTypeSchema,
     order_status: OrderStatusSchema,
     address: z.array(UserAddressSchema),
     products: z.array(

@@ -18,6 +18,7 @@ class DeliveryTimeOrderController extends Controller
         ]);
 
         $order->delivery_time = $data['delivery_time'];
+        $order->order_status_id = 3;
         $order->save();
 
         return redirect()->back();
